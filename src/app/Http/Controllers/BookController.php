@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Http\Requests\BookRequest;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -34,6 +35,32 @@ class BookController extends Controller implements HasMiddleware
         );
     }
 
+
+    // validate and save book data
+    private function saveBookData(Book $book, BookRequest $request): void
+    {
+        $validatedData = $request->validate([
+            $validatedData = $request->validated()
+        ]);
+
+        $book->fill($validatedData);
+        $book->display = (bool) ($validatedData['display'] ?? false);
+        
+        //ja atjauno bildi tad izdzēš veco.
+        if ($request->hasFile('image')) {
+            $uploadedFile = $request->file('image');
+            $extension = $uploadedFile->clientExtension();
+            $name = uniqid();
+                $book->image = $uploadedFile->storePubliclyAs(
+                '/',
+                $name . '.' . $extension,
+                'uploads'
+            );
+        }
+
+        $book->save();
+    }
+
     // display new Book form
     public function create(): View
     {
@@ -50,39 +77,10 @@ class BookController extends Controller implements HasMiddleware
     }
 
     // create new Book entry
-    public function put(Request $request): RedirectResponse
+    public function put(BookRequest $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required|min:3|max:256',
-            'author_id' => 'required',
-            'description' => 'nullable',
-            'price' => 'nullable|numeric',
-            'year' => 'numeric',
-            'image' => 'nullable|image',
-            'display' => 'nullable',
-        ]);
-
         $book = new Book();
-        $book->name = $validatedData['name'];
-        $book->author_id = $validatedData['author_id'];
-        $book->description = $validatedData['description'];
-        $book->price = $validatedData['price'];
-        $book->year = $validatedData['year'];
-        $book->display = (bool) ($validatedData['display'] ?? false);
-        
-        if ($request->hasFile('image')) {
-            $uploadedFile = $request->file('image');
-            $extension = $uploadedFile->clientExtension();
-            $name = uniqid();
-                $book->image = $uploadedFile->storePubliclyAs(
-                '/',
-                $name . '.' . $extension,
-                'uploads'
-            );
-        }
-
-        $book->save();
-
+        $this->saveBookData($book,$request);
         return redirect('/books');
     }
 
@@ -102,38 +100,10 @@ class BookController extends Controller implements HasMiddleware
     }
 
     // update Book data
-    public function patch(Book $book, Request $request): RedirectResponse
+    public function patch(Book $book, BookRequest $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required|min:3|max:256',
-            'author_id' => 'required',
-            'description' => 'nullable',
-            'price' => 'nullable|numeric',
-            'year' => 'numeric',
-            'image' => 'nullable|image',
-            'display' => 'nullable',
-        ]);
 
-        $book->name = $validatedData['name'];
-        $book->author_id = $validatedData['author_id'];
-        $book->description = $validatedData['description'];
-        $book->price = $validatedData['price'];
-        $book->year = $validatedData['year'];
-        $book->display = (bool) ($validatedData['display'] ?? false);
-
-        if ($request->hasFile('image')) {
-            $uploadedFile = $request->file('image');
-            $extension = $uploadedFile->clientExtension();
-            $name = uniqid();
-            $book->image = $uploadedFile->storePubliclyAs(
-                '/',
-                $name . '.' . $extension,
-                'uploads'
-            );
-        }
-
-        $book->save();
-
+        $this->saveBookData($book,$request);
         return redirect('/books');
     }
 
