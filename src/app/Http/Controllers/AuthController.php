@@ -35,7 +35,7 @@ public function authenticate(Request $request): RedirectResponse
         $request->session()->regenerate();
  
         // Šo vēlāk nomainīsim uz /books
-        return redirect('/authors');
+        return redirect('/books');
     }
  
     return back()->withErrors([

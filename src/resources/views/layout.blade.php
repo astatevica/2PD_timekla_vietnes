@@ -31,6 +31,10 @@
 
                             <!--lietas redzamas autentificetajiem lietotājie-->
                             <li class="nav-item">
+                                <a class="nav-link" href="/books">Grāmatas</a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link" href="/authors">Autori</a>
                             </li>
 
