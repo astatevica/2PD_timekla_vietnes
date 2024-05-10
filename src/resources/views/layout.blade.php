@@ -23,11 +23,32 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Sākumlapa</a>
+                            <a class="nav-link" href="/">Sākumlapa</a><!--Sākumlapas saite paliek redzama jebkurā gadījumā, jo/tādēļ, ka tā ir ārpus if-->
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/authors">Autori</a>
-                        </li>
+
+                        <!--autentifikācijas pārbaude-->
+                        @if(Auth::check())
+
+                            <!--lietas redzamas autentificetajiem lietotājie-->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/authors">Autori</a>
+                            </li>
+
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">Beigt darbu</a>
+                            </li>
+
+
+                        @else
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/login">Pieslēgties</a>
+                            </li>
+
+                        @endif
+
+
                     </ul>
                 </div>
             </div>

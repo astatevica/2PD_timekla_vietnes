@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Author;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class AuthorController extends Controller
+class AuthorController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+        ];
+    }
+
+
     // display all Authors
     public function list():View
     {
@@ -80,5 +89,7 @@ class AuthorController extends Controller
         $author->delete();
         return redirect('/authors');
     }
+
+
 
 }
