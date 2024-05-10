@@ -69,6 +69,18 @@ class BookController extends Controller implements HasMiddleware
         $book->price = $validatedData['price'];
         $book->year = $validatedData['year'];
         $book->display = (bool) ($validatedData['display'] ?? false);
+        
+        if ($request->hasFile('image')) {
+            $uploadedFile = $request->file('image');
+            $extension = $uploadedFile->clientExtension();
+            $name = uniqid();
+                $book->image = $uploadedFile->storePubliclyAs(
+                '/',
+                $name . '.' . $extension,
+                'uploads'
+            );
+        }
+
         $book->save();
 
         return redirect('/books');
@@ -108,6 +120,18 @@ class BookController extends Controller implements HasMiddleware
         $book->price = $validatedData['price'];
         $book->year = $validatedData['year'];
         $book->display = (bool) ($validatedData['display'] ?? false);
+
+        if ($request->hasFile('image')) {
+            $uploadedFile = $request->file('image');
+            $extension = $uploadedFile->clientExtension();
+            $name = uniqid();
+            $book->image = $uploadedFile->storePubliclyAs(
+                '/',
+                $name . '.' . $extension,
+                'uploads'
+            );
+        }
+
         $book->save();
 
         return redirect('/books');
@@ -116,10 +140,13 @@ class BookController extends Controller implements HasMiddleware
     // delete Book
     public function delete(Book $book): RedirectResponse
     {
-        // dzēšam arī bildes
+        if ($book->image) {
+            unlink(getcwd() . '/images/' . $book->image);
+        }
         $book->delete();
         return redirect('/books');
     }
+
 
     
     
