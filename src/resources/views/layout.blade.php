@@ -38,10 +38,19 @@
                                 <a class="nav-link" href="/authors">Autori</a>
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link" href="/categories">Kategorijas</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="/performers">Izpildītāji</a>
+                            </li>
                             
                             <li class="nav-item">
                                 <a class="nav-link" href="/logout">Beigt darbu</a>
                             </li>
+
+                            
 
 
                         @else

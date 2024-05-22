@@ -13,8 +13,7 @@ class AuthController extends Controller
 public function login(): View
 {
 
-
-//$2y$12$Nvf4gg0uPcsUgNzcWnSpV.RHEZ9Fri6/WOuM3KtmHDmolasTQm8Ia
+//$2y$12$IyP1TEoDzTPOQWY8hP.8ney3OFonOvhumqkfx4PCfyzJO2Kbgq9HC
 //lv: guest
 //pr: guest
     return view(

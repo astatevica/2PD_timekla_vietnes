@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Models\Author;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
-class AuthorController extends Controller implements HasMiddleware
+
+class CategoriesController extends Controller implements HasMiddleware
 {
-     
     public static function middleware(): array
     {
         return [
@@ -22,11 +22,11 @@ class AuthorController extends Controller implements HasMiddleware
     // display all Authors
     public function list():View
     {
-        $items = Author::orderBy('name', 'asc')->get();
+        $items = Categories::orderBy('name', 'asc')->get();
         return view(
-            'author.list',
+            'categories.list',
             [
-                'title' => 'Autori',
+                'title' => 'Kategorijas',
                 'items' => $items,
             ]
         );
@@ -36,10 +36,10 @@ class AuthorController extends Controller implements HasMiddleware
     public function create():View
     {
         return view(
-            'author.form',
+            'categories.form',
             [
-                'title' => 'Pievienot autoru',
-                'author' => new Author,
+                'title' => 'Pievienot kategoriju',
+                'categorie' => new Categories,
             ]
         );
     }
@@ -51,44 +51,44 @@ class AuthorController extends Controller implements HasMiddleware
             'name' => 'required|string|max:255',
         ]);
     
-        $author = new Author();
-        $author->name = $validatedData['name'];
-        $author->save();
+        $categorie = new Categories();
+        $categorie->name = $validatedData['name'];
+        $categorie->save();
     
-        return redirect('/authors');
+        return redirect('/categories');
     }
 
     //display Author edit form
-    public function update(Author $author):View
+    public function update(Categories $categorie):View
     {
         return view(
-            'author.form',
+            'categories.form',
             [
-                'title' => 'Rediģēt autoru',
-                'author' => $author,
+                'title' => 'Rediģēt kategoriju',
+                'categorie' => $categorie,
             ]
         );
     }
 
     // update Author data
-    public function patch(Author $author, Request $request): RedirectResponse
+    public function patch(Categories $categorie, Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
         ]);
     
-        $author->name = $validatedData['name'];
-        $author->save();
+        $categorie->name = $validatedData['name'];
+        $categorie->save();
     
-        return redirect('/authors');
+        return redirect('/categories');
     }
 
     // delete Author
-    public function delete(Author $author): RedirectResponse
+    public function delete(Categories $categorie): RedirectResponse
     {
         // šeit derētu pārbaude, kas neļauj dzēst autoru, ja tas piesaistīts eksistējošām grāmatām
-        $author->delete();
-        return redirect('/authors');
+        $categorie->delete();
+        return redirect('/categories');
     }
 
 
