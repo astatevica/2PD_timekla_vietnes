@@ -39,11 +39,10 @@ class BookController extends Controller implements HasMiddleware
     // validate and save book data
     private function saveBookData(Book $book, BookRequest $request): void
     {
-        $validatedData = $request->validate([
-            $validatedData = $request->validated()
-        ]);
-
+        $validatedData = $request->validated();
+        
         $book->fill($validatedData);
+        $book->categories_id = 0; // ŠIS PĒC KATEGORIJAS SADAĻAS IZVEIDOŠANAS IR JĀDZĒŠ
         $book->display = (bool) ($validatedData['display'] ?? false);
         
         //ja atjauno bildi tad izdzēš veco.

@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoriesController;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\DataController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -50,3 +51,8 @@ Route::post('/performers/put', [PerformerController::class, 'put']);
 Route::get('/performers/update/{performer}', [PerformerController::class, 'update']);
 Route::post('/performers/patch/{performer}', [PerformerController::class, 'patch']);
 Route::post('/performers/delete/{performer}',[PerformerController::class, 'delete']);
+
+// Data/API
+Route::get('/data/get-top-books', [DataController::class, 'getTopBooks']);
+Route::get('/data/get-book/{book}', [DataController::class, 'getBook']);
+Route::get('/data/get-related-books/{book}', [DataController::class, 'getRelatedBooks']);

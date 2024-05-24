@@ -7,13 +7,13 @@ use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function index(): View
-    {
-        return view(
-            'home.index',
-            [
-                'title' => 'Sākumlapa',
-            ]
-        );
+    public function index(): View 
+    { 
+        return view( 
+            'public', 
+            [ 
+                'title' => 's6_statevcia_a' 
+            ] 
+        ); 
     }
 }

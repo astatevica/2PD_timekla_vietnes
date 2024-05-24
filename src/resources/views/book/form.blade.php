@@ -48,6 +48,7 @@
                         >{{ $author->name }}</option>
                     @endforeach
             </select>
+            
 
             @error('author_id')
                 <p class="invalid-feedback">{{ $errors->first('author_id') }}</p>
