@@ -56,6 +56,29 @@
         </div>
 
         <div class="mb-3">
+            <label for="book-categorie" class="form-label">Kategorija</label>
+
+            <select
+                id="book-categorie"
+                name="categories_id"
+                class="form-select @error('categories_id') is-invalid @enderror"
+            >
+                <option value="">Norādiet kategoriju!</option>
+                    @foreach($categories as $categorie)
+                        <option
+                            value="{{ $categorie->id }}"
+                            @if ($categorie->id == old('categories_id', $book->categories_id ?? false)) selected @endif
+                        >{{ $categorie->name }}</option>
+                    @endforeach
+            </select>
+            
+
+            @error('categories_id')
+                <p class="invalid-feedback">{{ $errors->first('categories_id') }}</p>
+            @enderror
+        </div>
+
+        <div class="mb-3">
             <label for="book-description" class="form-label">Apraksts</label>
 
             <textarea

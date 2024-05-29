@@ -24,6 +24,7 @@ class BookRequest extends FormRequest
         return [
             'name' => 'required|min:3|max:256',
             'author_id' => 'required',
+            'categories_id' => 'required',
             'description' => 'nullable',
             'price' => 'nullable|numeric',
             'year' => 'numeric',
@@ -49,6 +50,7 @@ class BookRequest extends FormRequest
         return [
             'name' => 'nosaukums',
             'author_id' => 'autors',
+            'categories_id' => 'kategorija',
             'description' => 'apraksts',
             'price' => 'cena',
             'year' => 'gads',

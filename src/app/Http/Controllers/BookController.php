@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\Categories; // Import the Category model
 use App\Http\Requests\BookRequest;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -42,7 +43,7 @@ class BookController extends Controller implements HasMiddleware
         $validatedData = $request->validated();
         
         $book->fill($validatedData);
-        $book->categories_id = 0; // ŠIS PĒC KATEGORIJAS SADAĻAS IZVEIDOŠANAS IR JĀDZĒŠ
+        //$book->categories_id = 0; // ŠIS PĒC KATEGORIJAS SADAĻAS IZVEIDOŠANAS IR JĀDZĒŠ
         $book->display = (bool) ($validatedData['display'] ?? false);
         
         //ja atjauno bildi tad izdzēš veco.
@@ -57,6 +58,10 @@ class BookController extends Controller implements HasMiddleware
             );
         }
 
+        //Šis jāpajautā pasniedzējam
+        $book->categories_id = $validatedData['categories_id']; // Set categories_id
+
+
         $book->save();
     }
 
@@ -64,6 +69,7 @@ class BookController extends Controller implements HasMiddleware
     public function create(): View
     {
         $authors = Author::orderBy('name', 'asc')->get();
+        $categories = Categories::orderBy('name', 'asc')->get(); // Retrieve categories
 
         return view(
             'book.form',
@@ -71,6 +77,7 @@ class BookController extends Controller implements HasMiddleware
                 'title' => 'Pievienot grāmatu',
                 'book' => new Book(),
                 'authors' => $authors,
+                'categories' => $categories, // Pass categories to the view
             ]
         );
     }
@@ -87,6 +94,7 @@ class BookController extends Controller implements HasMiddleware
     public function update(Book $book): View
     {
         $authors = Author::orderBy('name', 'asc')->get();
+        $categories = Categories::orderBy('name', 'asc')->get(); // Retrieve categories
 
         return view(
             'book.form',
@@ -94,6 +102,7 @@ class BookController extends Controller implements HasMiddleware
                 'title' => 'Rediģēt grāmatu',
                 'book' => $book,
                 'authors' => $authors,
+                'categories' => $categories, // Pass categories to the view
             ]
         );
     }

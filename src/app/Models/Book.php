@@ -24,6 +24,11 @@ class Book extends Model
         return $this->belongsTo(Author::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsTo(Categories::class, 'categories_id');
+    }
+
     public function jsonSerialize(): mixed
     {
         return [
